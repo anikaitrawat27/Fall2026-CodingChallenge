@@ -44,7 +44,8 @@ export function Navbar() {
                   navigate("/login");
                 }}
               >
-                <LogOut size={16} /> Sign out
+                <LogOut size={16} />
+                <span className="hidden sm:inline">Sign out</span>
               </Button>
             </>
           ) : (

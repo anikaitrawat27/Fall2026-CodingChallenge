@@ -36,7 +36,7 @@ export function Button({
     <button
       {...rest}
       disabled={disabled || loading}
-      className={`inline-flex items-center justify-center gap-2 rounded-full font-semibold transition
+      className={`inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-semibold transition
         focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand
         disabled:cursor-not-allowed disabled:opacity-50
         ${VARIANTS[variant]} ${SIZES[size]} ${className}`}
