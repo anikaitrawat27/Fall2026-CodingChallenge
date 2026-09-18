@@ -16,21 +16,31 @@ export function ImageTile({ image, onSave, saved = false }: Props) {
 
   return (
     <figure className="group relative overflow-hidden rounded-2xl bg-white shadow-sm">
-      {/* Reserve the image's real aspect ratio so the masonry layout
-          doesn't reflow when the picture finishes loading. */}
-      {!loaded && (
-        <div
-          className="skeleton w-full rounded-2xl"
-          style={{ aspectRatio: `${image.width} / ${image.height}` }}
+      {/* The wrapper holds the image's real aspect ratio so the masonry
+          layout doesn't reflow when the picture arrives.
+
+          The image must stay in the layout (faded out, not display:none)
+          while it loads: a lazy image that is display:none is never treated
+          as on-screen, so the browser would never load it and onLoad would
+          never fire. The skeleton is layered on top instead. */}
+      <div
+        className="relative w-full"
+        style={{ aspectRatio: `${image.width} / ${image.height}` }}
+      >
+        {!loaded && <div className="skeleton absolute inset-0" aria-hidden />}
+        <img
+          src={image.thumbUrl}
+          alt={image.tags.slice(0, 3).join(", ") || "Search result"}
+          loading="lazy"
+          onLoad={() => setLoaded(true)}
+          // Treat a failed load as settled too, otherwise a broken image
+          // would shimmer forever.
+          onError={() => setLoaded(true)}
+          className={`h-full w-full object-cover transition-opacity duration-300 ${
+            loaded ? "opacity-100" : "opacity-0"
+          }`}
         />
-      )}
-      <img
-        src={image.thumbUrl}
-        alt={image.tags.slice(0, 3).join(", ") || "Search result"}
-        loading="lazy"
-        onLoad={() => setLoaded(true)}
-        className={`w-full object-cover transition duration-300 ${loaded ? "block" : "hidden"}`}
-      />
+      </div>
 
       <figcaption
         className="pointer-events-none absolute inset-0 flex flex-col justify-between bg-gradient-to-t
