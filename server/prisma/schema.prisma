@@ -1,0 +1,89 @@
+// Prisma schema for Pinboard.
+// Four models: users own collections, collections hold saved images,
+// and a join table grants other users edit access to a collection.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  username     String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+
+  ownedCollections Collection[]   @relation("CollectionOwner")
+  collaborations   Collaborator[]
+  savedImages      Image[]        @relation("ImageAddedBy")
+
+  @@map("users")
+}
+
+model Collection {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  // Short unguessable slug used for the public share URL (/s/:slug).
+  shareSlug   String   @unique
+  // Private by default; owner opts in to link sharing.
+  isPublic    Boolean  @default(false)
+  coverUrl    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  ownerId String
+  owner   User   @relation("CollectionOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+
+  images        Image[]
+  collaborators Collaborator[]
+
+  @@index([ownerId])
+  @@map("collections")
+}
+
+model Image {
+  id         String   @id @default(cuid())
+  // Upstream Pixabay id, so we can detect duplicates within a collection.
+  providerId String
+  imageUrl   String
+  thumbUrl   String
+  sourceUrl  String?
+  // User-editable fields — this is the "edit content" requirement.
+  note       String?
+  tags       String[] @default([])
+  width      Int?
+  height     Int?
+  createdAt  DateTime @default(now())
+
+  collectionId String
+  collection   Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+
+  addedById String?
+  addedBy   User?   @relation("ImageAddedBy", fields: [addedById], references: [id], onDelete: SetNull)
+
+  // The same image can't be saved twice into one collection.
+  @@unique([collectionId, providerId])
+  @@index([collectionId])
+  @@map("images")
+}
+
+model Collaborator {
+  id        String   @id @default(cuid())
+  role      String   @default("editor") // "editor" | "viewer"
+  createdAt DateTime @default(now())
+
+  collectionId String
+  collection   Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([collectionId, userId])
+  @@map("collaborators")
+}
