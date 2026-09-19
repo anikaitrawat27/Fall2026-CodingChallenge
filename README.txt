@@ -147,16 +147,22 @@ Extra features beyond the base spec:
 REFLECTION
 -------------------------------------------------------------------------------
 
-[TODO - write 2-4 sentences in your own words, under 100 words.
- Things worth talking about: what was new to you here (Prisma? JWT auth?
- optimistic UI? running two servers at once?), what clicked, and what gave
- you trouble. Delete this bracket when you're done.]
+Running a separate frontend and backend was the biggest shift for me. Deciding
+what belongs in the API versus the UI took longer than any feature, but putting
+the Pixabay key on the server so it never reaches the browser was when that
+separation stopped feeling like extra work.
+
+The hardest bug had nothing to do with the API. No search images rendered at
+all: I was hiding each image until it loaded, but an image hidden with
+display:none is never treated as on-screen, so lazy loading never requested it
+and the load event never fired. Every tile was waiting on itself.
 
 -------------------------------------------------------------------------------
 FEEDBACK ON THE CHALLENGE
 -------------------------------------------------------------------------------
 
-[TODO - your honest take on the challenge, the workshop, and office hours.
- Delete this bracket when you're done.]
+[REPLACE THIS with your own take - I can't write this part for you, since it
+ depends on whether you went to the workshop on the 15th or office hours on
+ the 16th, and what you thought of them. Even two honest sentences is enough.]
 
 ===============================================================================
