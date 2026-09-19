@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Check, Copy, Globe, Lock, UserPlus, X } from "lucide-react";
 import type { Collaborator } from "../lib/types";
 import { Modal } from "./Modal";
+import { Switch } from "./Switch";
 import { Button } from "./Button";
 import { Input } from "./Input";
 
@@ -70,9 +71,11 @@ export function ShareModal({
                 : "Turn this on to share a read-only link with anyone."}
             </p>
           </div>
-          <Button size="sm" variant="secondary" onClick={() => onToggleVisibility(!isPublic)}>
-            {isPublic ? "Make private" : "Make public"}
-          </Button>
+          <Switch
+            checked={isPublic}
+            onCheckedChange={onToggleVisibility}
+            label="Anyone with the link can view this board"
+          />
         </div>
 
         {isPublic && (
@@ -95,8 +98,8 @@ export function ShareModal({
       {/* Collaborators ---------------------------------------------------- */}
       <div>
         <p className="mb-2 text-sm font-semibold text-ink">Collaborators can add and remove images</p>
-        <div className="flex items-end gap-2">
-          <div className="flex-1">
+        <div className="flex flex-col items-stretch gap-2 sm:flex-row sm:items-end">
+          <div className="min-w-0 flex-1">
             <Input
               label="Invite by username or email"
               value={identifier}

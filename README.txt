@@ -20,6 +20,7 @@ TECH STACK
 -------------------------------------------------------------------------------
 
 Frontend    React 19 + TypeScript, built with Vite
+            Radix UI component library (accessible dialogs and switches)
             Tailwind CSS v4, React Router, axios, lucide-react icons
 
 Backend     Node.js + Express + TypeScript (runs as its own server on port 4000)
