@@ -38,7 +38,9 @@ export async function resolveAccess(
     if (collection.ownerId === userId) {
       level = "owner";
     } else {
-      const seat = collection.collaborators.find((c) => c.userId === userId);
+      const seat = collection.collaborators.find(
+        (c: { userId: string; role: string }) => c.userId === userId,
+      );
       if (seat) level = seat.role === "viewer" ? "viewer" : "editor";
     }
   }
