@@ -162,8 +162,12 @@ never fired. Every tile was waiting on itself.
 FEEDBACK ON THE CHALLENGE
 -------------------------------------------------------------------------------
 
-[REPLACE THIS with your own take - I can't write this part for you, since it
- depends on whether you went to the workshop on the 15th or office hours on
- the 16th, and what you thought of them. Even two honest sentences is enough.]
+The spec was clear about what to build and refreshingly open about how, which
+made it feel closer to real work than a typical assignment. Two small things in
+the scoring section tripped me up: Frontend Framework lists "Necessary -
+Gameplay works," which looks left over from a different challenge, and Data
+Handling is headed "up to 5 points" but only describes options worth up to 3,
+so I wasn't sure what a 5 would require. Being pointed at the Pixabay API
+rather than left to find one was genuinely helpful.
 
 ===============================================================================
