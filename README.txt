@@ -152,10 +152,10 @@ what belongs in the API versus the UI took longer than any feature, but putting
 the Pixabay key on the server so it never reaches the browser was when that
 separation stopped feeling like extra work.
 
-The hardest bug had nothing to do with the API. No search images rendered at
-all: I was hiding each image until it loaded, but an image hidden with
-display:none is never treated as on-screen, so lazy loading never requested it
-and the load event never fired. Every tile was waiting on itself.
+The hardest bug had nothing to do with the API. No search images rendered: I
+hid each image until it loaded, but an image hidden with display:none is never
+treated as on-screen, so lazy loading never requested it and the load event
+never fired. Every tile was waiting on itself.
 
 -------------------------------------------------------------------------------
 FEEDBACK ON THE CHALLENGE
